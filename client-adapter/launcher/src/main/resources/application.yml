@@ -1,0 +1,59 @@
+server:
+  port: 8081
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+canal.conf:
+  mode: rocketMQ # kafka rocketMQ
+  canalServerHost: 127.0.0.1:11111
+  #  zookeeperHosts: slave1:2181
+  mqServers: 127.0.0.1:9876 #or rocketmq
+  #  flatMessage: true
+  batchSize: 500
+  syncBatchSize: 1000
+  retries: 0
+  timeout:
+  accessKey:
+  secretKey:
+  srcDataSources:
+    defaultDS:
+      url: jdbc:mysql://127.0.0.1:3307/achao?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: 123456
+  canalAdapters:
+    - instance: mirror # canal instance Name or mq topic name
+      groups:
+        - groupId: g1
+          outerAdapters:
+            - name: logger
+            - name: rdb
+              key: mysql1
+              properties:
+                jdbc.driverClassName: com.mysql.jdbc.Driver
+                jdbc.url: jdbc:mysql://127.0.0.1:3308/achao_clone?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+                jdbc.username: root
+                jdbc.password: 123456
+#      - name: rdb
+#        key: postgres1
+#        properties:
+#          jdbc.driverClassName: org.postgresql.Driver
+#          jdbc.url: jdbc:postgresql://localhost:5432/postgres
+#          jdbc.username: postgres
+#          jdbc.password: 121212
+#          threads: 1
+#          commitSize: 3000
+#      - name: hbase
+#        properties:
+#          hbase.zookeeper.quorum: 127.0.0.1
+#          hbase.zookeeper.property.clientPort: 2181
+#          zookeeper.znode.parent: /hbase
+#      - name: es
+#        hosts: 127.0.0.1:9300 # 127.0.0.1:9200 for rest mode
+#        properties:
+#          mode: transport # or rest
+#          # security.auth: test:123456 #  only used for rest mode
+#          cluster.name: elasticsearch
+

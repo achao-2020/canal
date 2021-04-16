@@ -1,0 +1,23 @@
+dataSourceKey: defaultDS
+destination: instance
+groupId: g1
+outerAdapterKey: mysql2
+concurrent: true
+dbMapping:
+  database: achao
+  table: t_base_model_property_setting
+  targetTable: achao.t_base_model_property_setting
+  targetPk:
+    id: id
+  mapAll: true
+  commitBatch: 3000 # 批量提交的大小
+  etlCondition: "where id<{}"
+## Mirror schema synchronize config
+#dataSourceKey: defaultDS
+#destination: example
+#groupId: g1
+#outerAdapterKey: mysql1
+#concurrent: true
+#dbMapping:
+#  mirrorDb: true
+#  database: mytest
