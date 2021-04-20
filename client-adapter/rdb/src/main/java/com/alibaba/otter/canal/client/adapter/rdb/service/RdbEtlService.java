@@ -96,18 +96,6 @@ public class RdbEtlService extends AbstractEtlService {
                         while (rs.next()) {
                             completed = false;
                             pstmt.clearParameters();
-                            // 删除数据
-//                            Map<String, Object> pkVal = new LinkedHashMap<>();
-//                            StringBuilder deleteSql = new StringBuilder(
-//                                "DELETE FROM " + SyncUtil.getDbTableName(dbMapping) + " WHERE ");
-//                            appendCondition(dbMapping, deleteSql, pkVal, rs);
-//                            try (PreparedStatement pstmt2 = connTarget.prepareStatement(deleteSql.toString())) {
-//                                int k = 1;
-//                                for (Object val : pkVal.values()) {
-//                                    pstmt2.setObject(k++, val);
-//                                }
-//                                pstmt2.execute();
-//                            }
 
                             int i = 1;
                             for (Map.Entry<String, String> entry : columnsMap.entrySet()) {

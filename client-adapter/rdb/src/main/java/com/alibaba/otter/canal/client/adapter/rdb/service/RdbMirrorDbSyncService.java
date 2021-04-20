@@ -25,7 +25,7 @@ import com.alibaba.otter.canal.client.adapter.support.Dml;
  * RDB镜像库同步操作业务
  *
  * @author rewerma 2018-12-12 下午011:23
- * @version 1.0.0
+ * @version R.0.0
  */
 public class RdbMirrorDbSyncService {
 
@@ -73,12 +73,13 @@ public class RdbMirrorDbSyncService {
                 }
 
 
-                String table = dml.getTable();
-                MappingConfig config = mirrorDbConfig.getTableConfig().get(table);
+                String srcDb = dml.getDatabase();
+                String srcTb = dml.getTable();
+//                MappingConfig config = mirrorDbConfig.getTableConfig().get(table);
                 // 修复镜像模式下自定义数据库不能同步ddl语句的问题
-                String targetDb = mirrorDbConfig.getMappingConfig().getDbMapping().getTargetDb();
-                String regex = dml.getDatabase();
-                String newSql = dml.getSql().replaceAll(regex, targetDb);
+                String targetDbTb = mirrorDbConfig.getMappingConfig().getDbMapping().getTargetTable();
+                String[] split = targetDbTb.split("(\\.)");
+                String newSql = dml.getSql().replaceAll(srcDb, split[0]).replaceAll(srcTb, split[1]);
                 dml.setSql(newSql);
                 executeDdl(mirrorDbConfig, dml);
                 rdbSyncService.getColumnsTypeCache().remove(destination + "." + database + "." + dml.getTable());

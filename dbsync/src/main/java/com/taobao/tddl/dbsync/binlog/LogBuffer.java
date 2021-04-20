@@ -1631,4 +1631,8 @@ public class LogBuffer {
         }
         return "";
     }
+
+    public byte[] getBuffer() {
+        return buffer;
+    }
 }

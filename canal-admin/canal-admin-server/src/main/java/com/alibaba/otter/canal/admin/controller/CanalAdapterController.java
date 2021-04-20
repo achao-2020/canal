@@ -2,9 +2,11 @@ package com.alibaba.otter.canal.admin.controller;
 
 import com.alibaba.otter.canal.admin.common.TemplateConfigLoader;
 import com.alibaba.otter.canal.admin.model.Adapter;
+import com.alibaba.otter.canal.admin.model.AdapterRef;
 import com.alibaba.otter.canal.admin.model.BaseModel;
 import com.alibaba.otter.canal.admin.model.Pager;
-import com.alibaba.otter.canal.admin.service.impl.AdapterServiceImpl;
+import com.alibaba.otter.canal.admin.service.AdapterRefService;
+import com.alibaba.otter.canal.admin.service.AdapterService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -13,7 +15,10 @@ import javax.annotation.Resource;
 @RequestMapping("/api/{env}/")
 public class CanalAdapterController {
     @Resource
-    private AdapterServiceImpl adapterService;
+    private AdapterService adapterService;
+
+    @Resource
+    private AdapterRefService adapterRefService;
 
     /**
      * 获取全部的adapter信息
@@ -22,7 +27,7 @@ public class CanalAdapterController {
      * @return
      */
     @GetMapping("/canalAdapter")
-    public BaseModel<Pager<Adapter>> adapters(Adapter adapter, Pager<Adapter> pager) {
+    public BaseModel<Pager<Adapter>> adapters(Adapter adapter, Pager<Adapter> pager, @PathVariable String env) {
         return BaseModel.getInstance(adapterService.findList(adapter, pager));
     }
 
@@ -50,5 +55,15 @@ public class CanalAdapterController {
     @PostMapping(value = "/updateCanalAdapter")
     public BaseModel<String> updateContent(@RequestBody Adapter adapter, @PathVariable String env) {
         return BaseModel.getInstance(adapterService.updateContent(adapter));
+    }
+
+    @PutMapping("/adapterStatus/{id}")
+    public BaseModel<Boolean> adapterStatus(@PathVariable Long id, @RequestParam() String option, @PathVariable String env) {
+        return BaseModel.getInstance(adapterService.adapterStatus(id, option));
+    }
+
+    @GetMapping("/adapterRefTables")
+    public BaseModel<Pager<AdapterRef>> adapterRefTables(AdapterRef adapterRef, Pager<AdapterRef> pager, @PathVariable String env) {
+        return BaseModel.getInstance(adapterRefService.findList(adapterRef, pager));
     }
 }

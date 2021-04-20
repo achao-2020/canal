@@ -1,22 +1,16 @@
 package com.alibaba.otter.canal.admin.controller;
 
-import java.security.NoSuchAlgorithmException;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.alibaba.otter.canal.admin.model.BaseModel;
 import com.alibaba.otter.canal.admin.model.CanalConfig;
 import com.alibaba.otter.canal.admin.model.CanalInstanceConfig;
 import com.alibaba.otter.canal.admin.service.PollingConfigService;
 import com.alibaba.otter.canal.protocol.SecurityUtil;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Canal Instance配置管理控制层
@@ -31,13 +25,13 @@ public class PollingConfigController {
     private static final byte[] seeds = "canal is best!".getBytes();
 
     @Value(value = "${canal.adminUser}")
-    String                      user;
+    String user;
 
     @Value(value = "${canal.adminPasswd}")
-    String                      passwd;
+    String passwd;
 
     @Autowired
-    PollingConfigService        pollingConfigService;
+    PollingConfigService pollingConfigService;
 
     /**
      * 获取server全局配置

@@ -15,7 +15,7 @@ public class DatasourceConfig {
 
     public final static Map<String, DruidDataSource> DATA_SOURCES = new ConcurrentHashMap<>(); // key对应的数据源
 
-    private String                                   driver       = "com.mysql.jdbc.Driver";   // 默认为mysql jdbc驱动
+    private String                                   driver       = "com.mysql.cj.jdbc.Driver";   // 默认为mysql jdbc驱动
     private String                                   url;                                      // jdbc url
     private String                                   database;                                 // jdbc database
     private String                                   type         = "mysql";                   // 类型, 默认为mysql

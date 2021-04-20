@@ -261,9 +261,9 @@ public class SyncUtil {
 
     public static String getDbTableName(MappingConfig.DbMapping dbMapping) {
         String result = "";
-//        if (StringUtils.isNotEmpty(dbMapping.getTargetDb())) {
-//            result += dbMapping.getTargetDb() + ".";
-//        }
+/*        if (StringUtils.isNotEmpty(dbMapping.getTargetDb())) {
+            result += dbMapping.getTargetDb() + ".";
+        }*/
         result += dbMapping.getTargetTable();
         return result;
     }

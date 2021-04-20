@@ -1,6 +1,6 @@
 canal:
   manager:
     jdbc:
-      url: jdbc:mysql://127.0.0.1:3307/canal_manager?useUnicode=true&characterEncoding=UTF-8
-      username: root
-      password: 123456
+      url: jdbc:mysql://10.192.30.44:4304/xp_canal_manager_dev?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+      username: xp_dev
+      password: xp_devxp_dev

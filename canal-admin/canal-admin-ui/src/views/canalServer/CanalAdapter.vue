@@ -65,9 +65,9 @@
 </template>
 
 <script>
-import {instanceStatus} from '@/api/canalInstance'
+
 import Pagination from '@/components/Pagination'
-import {getAdapterConfig, deleteAdapter} from "../../api/canalAdapter";
+import {getAdapterConfig, deleteAdapter, adapterStatus} from "../../api/canalAdapter";
 import {getCanalClusters} from "../../api/canalCluster";
 
 export default {
@@ -130,7 +130,6 @@ export default {
       this.listLoading = true
       console.log("正在访问getAdapterCConfig请求。。。")
       getAdapterConfig(this.listQuery).then(res => {
-        console.log(res.data)
         this.list = res.data.items
         this.count = res.data.count
       }).finally(() => {
@@ -144,7 +143,7 @@ export default {
       this.$router.push('/canalServer/canalAdapter/modify?id=' + row.id)
     },
     handleDelete(row) {
-      this.$confirm('删除Instance配置会导致停止', '确定删除Instance信息', {
+      this.$confirm('删除Adapter配置会导致停止', '确定删除Adapter信息', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -153,12 +152,12 @@ export default {
           if (res.data === 'success') {
             this.fetchData()
             this.$message({
-              message: '删除Instance信息成功',
+              message: '删除Adapter信息成功',
               type: 'success'
             })
           } else {
             this.$message({
-              message: '删除Instance信息失败',
+              message: '删除Adapter信息失败',
               type: 'error'
             })
           }
@@ -166,16 +165,16 @@ export default {
       })
     },
     handleStart(row) {
-      // if (row.runningStatus === '1') {
-      //   this.$message({ message: '当前Instance已处于启动状态！', type: 'error' })
-      //   return
-      // }
-      this.$confirm('启动Instance: ' + row.name, '确定启动Instance服务', {
+      if (row.runningStatus === '1') {
+        this.$message({ message: '当前Adapter已处于启动状态！', type: 'error' })
+        return
+      }
+      this.$confirm('启动Adapter: ' + row.name, '确定启动Adapter服务', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        instanceStatus(row.id, 'start').then((res) => {
+        adapterStatus(row.id, 'start').then((res) => {
           if (res.data) {
             this.fetchData()
             this.$message({
@@ -184,7 +183,7 @@ export default {
             })
           } else {
             this.$message({
-              message: '启动Instance出现异常',
+              message: '启动Adapter出现异常',
               type: 'error'
             })
           }
@@ -192,16 +191,16 @@ export default {
       })
     },
     handleStop(row) {
-      // if (row.runningStatus === '0') {
-      //   this.$message({ message: '当前Instance已处于停止状态！', type: 'error' })
-      //   return
-      // }
-      this.$confirm('停止Instance: ' + row.name, '确定停止Instance服务', {
+      if (row.runningStatus === '0') {
+        this.$message({ message: '当前Adapter已处于停止状态！', type: 'error' })
+        return
+      }
+      this.$confirm('停止Adapter: ' + row.name, '确定停止Adapter服务', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        instanceStatus(row.id, 'stop').then((res) => {
+        adapterStatus(row.id, 'stop').then((res) => {
           if (res.data) {
             this.fetchData()
             this.$message({
@@ -210,7 +209,7 @@ export default {
             })
           } else {
             this.$message({
-              message: '停止Instance出现异常',
+              message: '停止Adapter出现异常',
               type: 'error'
             })
           }
@@ -219,13 +218,13 @@ export default {
     },
     handleLog(row) {
       if (row.nodeId === null) {
-        this.$message({message: '当前Instance不是启动状态，无法查看日志', type: 'warning'})
+        this.$message({message: '当前Adapter不是启动状态，无法查看日志', type: 'warning'})
         return
       }
       this.$router.push('canalInstance/log?id=' + row.id + '&nodeId=' + row.nodeServer.id)
     },
     handleTable(row) {
-      this.$router.push('canalAdapter/table?id=' + row.id + '&nodeId=' + row.nodeServer.id)
+      this.$router.push('canalAdapter/table?id=' + row.id)
     }
   }
 }

@@ -1,19 +1,17 @@
-package com.alibaba.otter.canal.admin.service.impl;
+package com.alibaba.otter.canal.admin.service;
 
 import com.alibaba.otter.canal.admin.common.exception.ServiceException;
 import com.alibaba.otter.canal.admin.model.Adapter;
 import com.alibaba.otter.canal.admin.model.Pager;
-import com.alibaba.otter.canal.protocol.SecurityUtil;
 import io.ebean.Query;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Objects;
 
 @Service("adapterService")
-public class AdapterServiceImpl {
+public class AdapterService {
     public Pager<Adapter> findList(Adapter adapter, Pager<Adapter> pager) {
         Query<Adapter> query = getBaseQuery(adapter);
         Query<Adapter> queryCnt = query.copy();
@@ -25,9 +23,6 @@ public class AdapterServiceImpl {
                 .setMaxRows(pager.getSize())
                 .findList();
         pager.setItems(adapters);
-        if (adapters.isEmpty()) {
-            return pager;
-        }
         return pager;
     }
 
@@ -70,5 +65,17 @@ public class AdapterServiceImpl {
     public String updateContent(Adapter adapter) {
         adapter.update("content");
         return "success";
+    }
+
+    public Boolean adapterStatus(Long id, String option) {
+        Adapter adapter = new Adapter();
+        adapter.setId(id);
+        if (option.equals("start")) {
+            adapter.setStatus("1");
+        } else {
+            adapter.setStatus("0");
+        }
+        adapter.update();
+        return true;
     }
 }

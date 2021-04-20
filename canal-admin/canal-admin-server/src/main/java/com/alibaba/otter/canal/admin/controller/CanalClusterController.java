@@ -1,11 +1,5 @@
 package com.alibaba.otter.canal.admin.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.otter.canal.admin.model.BaseModel;
@@ -13,6 +7,11 @@ import com.alibaba.otter.canal.admin.model.CanalCluster;
 import com.alibaba.otter.canal.admin.model.NodeServer;
 import com.alibaba.otter.canal.admin.service.CanalClusterService;
 import com.alibaba.otter.canal.admin.service.NodeServerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/{env}/canal")
@@ -22,7 +21,7 @@ public class CanalClusterController {
     CanalClusterService canalClusterServic;
 
     @Autowired
-    NodeServerService  nodeServerService;
+    NodeServerService nodeServerService;
 
     @GetMapping(value = "/clusters")
     public BaseModel<List<CanalCluster>> clusters(CanalCluster canalCluster, @PathVariable String env) {

@@ -48,7 +48,7 @@ public class DbRemoteConfigLoader implements RemoteConfigLoader {
     public DbRemoteConfigLoader(String driverName, String jdbcUrl, String jdbcUsername, String jdbcPassword){
         dataSource = new DruidDataSource();
         if (StringUtils.isEmpty(driverName)) {
-            driverName = "com.mysql.jdbc.Driver";
+            driverName = "com.mysql.cj.jdbc.Driver";
         }
         dataSource.setDriverClassName(driverName);
         dataSource.setUrl(jdbcUrl);

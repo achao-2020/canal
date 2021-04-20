@@ -68,7 +68,7 @@ public class DirectLogFetcher extends LogFetcher {
 
     /**
      * {@inheritDoc}
-     * 
+     * 取出获取到的数据包信息
      * @see com.taobao.tddl.dbsync.binlog.LogFetcher#fetch()
      */
     public boolean fetch() throws IOException {

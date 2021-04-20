@@ -15,29 +15,34 @@
       fit
       highlight-current-row
     >
-      <el-table-column label="源表名称" min-width="150" align="center">
+      <el-table-column label="源主机名称" min-width="150" align="center">
         <template slot-scope="scope">
-          {{ scope.row.src }}
+          {{ scope.row.srcHost }}
         </template>
       </el-table-column>
-      <el-table-column label="源主机" min-width="150" align="center">
+      <el-table-column label="源库表名称" min-width="150" align="center">
         <template slot-scope="scope">
-          {{ scope.row.host }}
-        </template>
-      </el-table-column>
-      <el-table-column label="目标表名称" min-width="150" align="center">
-        <template slot-scope="scope">
-            {{ scope.row.target }}
+          {{ scope.row.srcTable }}
         </template>
       </el-table-column>
       <el-table-column label="目标主机" min-width="150" align="center">
         <template slot-scope="scope">
-          {{ scope.row.updateTime }}
+            {{ scope.row.targetHost }}
+        </template>
+      </el-table-column>
+      <el-table-column label="目标库表名称" min-width="150" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.targetTable }}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="状态" min-width="150" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status | statusFilter }}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status | statusLabel }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="group" min-width="150" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.group }}
         </template>
       </el-table-column>
       <el-table-column label="Topic" min-width="150" align="center">
@@ -64,9 +69,8 @@
 </template>
 
 <script>
-import { getCanalInstances, deleteCanalInstance, instanceStatus } from '@/api/canalInstance'
 import Pagination from '@/components/Pagination'
-import { getClustersAndServers } from '@/api/canalCluster'
+import { adapterRefTables } from '@/api/canalAdapter'
 
 export default {
   components: { Pagination },
@@ -88,30 +92,20 @@ export default {
   },
   data() {
     return {
-      list: [
-        {src: 'carModel',
-        host: '127.0.0.1:3306',
-        target: 'car_model',
-        status: '1',
-        updateTime: '127.0.0.1:3307',
-        topic: "MQMessage"
-        },
-        {src: 'carType',
-          host: '127.0.0.1:3306',
-          target: 'car_type',
-          status: '1',
-          updateTime: '127.0.0.1:3307',
-          topic: "MQMessage"
-        }
-      ],
+      list: [],
       listLoading: false,
       dialogFormVisible: false,
       nodeServices: [],
       count: 0,
       options: [],
       listQuery: {
-        name: '',
-        clusterServerId: '',
+        adapterId: '',
+        srcHost: '',
+        srcTable: '',
+        targetHost: '',
+        targetTable: '',
+        group: '',
+        topic: '',
         page: 1,
         size: 20
       },
@@ -122,6 +116,11 @@ export default {
     }
   },
   created() {
+    console.log(this.$route.query.id)
+    this.listQuery.adapterId = this.$route.query.id
+    adapterRefTables(this.listQuery).then((res) => {
+      this.list = res.data.items
+    })
   },
   methods: {
     handleUpdate: function () {

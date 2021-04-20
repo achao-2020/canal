@@ -5,10 +5,12 @@ outerAdapterKey: mysql1
 concurrent: true
 dbMapping:
   mirrorDb: true
-  database: achao
-  targetDb: achao_clone
-  table: t_base_model_property_setting
-  targetTable: achao_clone.t_base_model_property_setting
+  #源数据库
+  database: xp_canal_manager_dev
+  #目标数据库
+  targetDb: achao
+  #目标库表
+  targetTable: achao.canal_test_copy
   mapAll: true
   commitBatch: 3000 # 批量提交的大小
   etlCondition: "where id<{}"

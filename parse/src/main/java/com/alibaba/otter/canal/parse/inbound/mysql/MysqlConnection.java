@@ -167,6 +167,7 @@ public class MysqlConnection implements ErosaConnection {
         LogContext context = new LogContext();
         context.setFormatDescription(new FormatDescriptionLogEvent(4, binlogChecksum));
         while (fetcher.fetch()) {
+            // 记录获取到的字节数组有多少个
             accumulateReceivedBytes(fetcher.limit());
             LogEvent event = null;
             event = decoder.decode(fetcher, context);
@@ -235,6 +236,7 @@ public class MysqlConnection implements ErosaConnection {
             while (fetcher.fetch()) {
                 accumulateReceivedBytes(fetcher.limit());
                 LogBuffer buffer = fetcher.duplicate();
+                byte[] bf = buffer.getBuffer();
                 fetcher.consume(fetcher.limit());
                 if (!coprocessor.publish(buffer)) {
                     break;
@@ -259,6 +261,7 @@ public class MysqlConnection implements ErosaConnection {
         ((MysqlMultiStageCoprocessor) coprocessor).setBinlogChecksum(binlogChecksum);
         DirectLogFetcher fetcher = new DirectLogFetcher(connector.getReceiveBufferSize());
         try {
+            // 将channel赋值给fetcher（获取到的binlog结果就在里面）
             fetcher.start(connector.getChannel());
             while (fetcher.fetch()) {
                 accumulateReceivedBytes(fetcher.limit());

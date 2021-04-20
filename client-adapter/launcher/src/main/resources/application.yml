@@ -8,7 +8,7 @@ spring:
 
 canal.conf:
   mode: rocketMQ # kafka rocketMQ
-  canalServerHost: 127.0.0.1:11111
+#  canalServerHost: 127.0.0.1:11111
   #  zookeeperHosts: slave1:2181
   mqServers: 127.0.0.1:9876 #or rocketmq
   #  flatMessage: true
@@ -20,9 +20,9 @@ canal.conf:
   secretKey:
   srcDataSources:
     defaultDS:
-      url: jdbc:mysql://127.0.0.1:3307/achao?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-      username: root
-      password: 123456
+      url: jdbc:mysql://10.192.30.44:4304/xp_canal_manager_dev?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      username: xp_dev
+      password: xp_devxp_dev
   canalAdapters:
     - instance: mirror # canal instance Name or mq topic name
       groups:
@@ -32,8 +32,8 @@ canal.conf:
             - name: rdb
               key: mysql1
               properties:
-                jdbc.driverClassName: com.mysql.jdbc.Driver
-                jdbc.url: jdbc:mysql://127.0.0.1:3308/achao_clone?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+                jdbc.driverClassName: com.mysql.cj.jdbc.Driver
+                jdbc.url: jdbc:mysql://127.0.0.1:3306/achao?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
                 jdbc.username: root
                 jdbc.password: 123456
 #      - name: rdb

@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import id from "element-ui/src/locale/lang/id";
 
 export function getAdapterConfig(params) {
   return request({
@@ -43,5 +42,20 @@ export function updateCanalAdapter(data) {
     url: 'updateCanalAdapter/',
     method: 'post',
     data
+  })
+}
+
+export function adapterStatus(id, option) {
+  return request({
+    url: 'adapterStatus/' + id + '?option=' + option,
+    method: 'put'
+  })
+}
+
+export function adapterRefTables(params) {
+  return request({
+    url: 'adapterRefTables/',
+    method: "get",
+    params: params
   })
 }

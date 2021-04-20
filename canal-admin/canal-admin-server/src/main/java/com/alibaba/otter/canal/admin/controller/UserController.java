@@ -1,13 +1,12 @@
 package com.alibaba.otter.canal.admin.controller;
 
+import com.alibaba.otter.canal.admin.model.BaseModel;
+import com.alibaba.otter.canal.admin.model.User;
 import com.alibaba.otter.canal.admin.service.UserService;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import com.alibaba.otter.canal.admin.model.BaseModel;
-import com.alibaba.otter.canal.admin.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class UserController {
         .build(key -> null);                                                         // 用户登录信息缓存
 
     @Autowired
-    UserService                                    userService;
+    UserService userService;
 
     /**
      * 用户登录
